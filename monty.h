@@ -3,11 +3,16 @@
 
 #define _GNU_SOURCE
 #include <stdio.h>
-#include <unistd.h>
-#include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include <stdarg.h>
+#include <unistd.h>
+
+#define STACK 0
+#define QUEUE 1
+#define DELIMS " \n\t\a\b"
+
+/* GLOBAL OPCODE TOKENS */
+extern char **op_toks;
+
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -20,9 +25,9 @@
  */
 typedef struct stack_s
 {
-        int n;
-        struct stack_s *prev;
-        struct stack_s *next;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
 } stack_t;
 
 /**
@@ -35,50 +40,33 @@ typedef struct stack_s
  */
 typedef struct instruction_s
 {
-        char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-extern stack_t *head;
-typedef void (*op_func)(stack_t **, unsigned int);
+/* INTERPRETER FUNCIONS */
+void set_op_tok_error(int error_code);
+unsigned int token_arr_len(void);
+void free_stack(stack_t **stack);
+int init_stack(stack_t **stack);
+int check_mode(stack_t *stack);
+int run_monty(FILE *script_fd);
+void free_tokens(void);
+unsigned int token_arr_len(void);
 
-/*file operations*/
-void open_file(char *file_name);
-int parse_line(char *buffer, int line_number, int format);
-void read_file(FILE *);
-int len_chars(FILE *);
-void find_func(char *, char *, int, int);
+/* CUSTOM LIBRARY FUNCTIONS */
+char *get_int(int n);
+char **strtow(char *str, char *delims);
 
-/*Stack operations*/
-stack_t *create_node(int n);
-void free_nodes(void);
-void print_stack(stack_t **, unsigned int);
-void add_to_stack(stack_t **, unsigned int);
-void add_to_queue(stack_t **, unsigned int);
+/* UPCODE FUNCTIONS */
+void push_stack(stack_t **stack, unsigned int line_number);
+void pall_stack(stack_t **stack, unsigned int line_number);
 
-void call_fun(op_func, char *, char *, int, int);
+/* ERROR MESSAGES AND CODES FUNCTIONS*/
+int usage_error(void);
+int malloc_error(void);
+int f_open_error(char *filename);
+int unknown_op_error(char *opcode, unsigned int line_number);
+int no_int_error(unsigned int line_number);
 
-void print_top(stack_t **, unsigned int);
-void pop_top(stack_t **, unsigned int);
-void nop(stack_t **, unsigned int);
-void swap_nodes(stack_t **, unsigned int);
-
-/*Math operations with nodes*/
-void add_nodes(stack_t **, unsigned int);
-void sub_nodes(stack_t **, unsigned int);
-void div_nodes(stack_t **, unsigned int);
-void mul_nodes(stack_t **, unsigned int);
-void mod_nodes(stack_t **, unsigned int);
-
-/*String operations*/
-void print_char(stack_t **, unsigned int);
-void print_str(stack_t **, unsigned int);
-void rotl(stack_t **, unsigned int);
-
-/*Error hanlding*/
-void err(int error_code, ...);
-void more_err(int error_code, ...);
-void string_err(int error_code, ...);
-void rotr(stack_t **, unsigned int);
-
-#endif
+#endif /*_MONTY_H_ */
