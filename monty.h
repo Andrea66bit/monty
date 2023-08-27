@@ -8,13 +8,11 @@
 #include <string.h>
 #include <ctype.h>
 /**
- * struct stack_s - doubly linked list representation of a stack (or queue)
- * @n: integer
- * @prev: points to the previous element of the stack (or queue)
- * @next: points to the next element of the stack (or queue)
- *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO Holberton project
+ * struct stack_s - stack or queue is represented as doubly linked list.
+ * @n: is integer
+ * @prev: preceding entry in the stack or queue
+ * @next: identifies the following item in the stack or queue
+ * Description: structure of a doubly linked list node FIFO LIFO stack queues
  */
 typedef struct stack_s
 {
@@ -23,12 +21,12 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 /**
- * struct bus_s - variables -args, file, line content
- * @arg: value
- * @file: pointer to monty file
- * @content: line content
- * @lifi: flag change stack <-> queue
- * Description: carries values through the program
+ * struct bus_s - variables, arguments, and file content
+ * @arg: it the value
+ * @file: link to the Monty file
+ * @content: line of content
+ * @lifi: stacked flag change queue
+ * Description: the program incorporates values
  */
 typedef struct bus_s
 {
@@ -39,12 +37,10 @@ typedef struct bus_s
 }  bus_t;
 extern bus_t bus;
 /**
- * struct instruction_s - opcode and its function
- * @opcode: the opcode
- * @f: function to handle the opcode
- *
- * Description: opcode and its function
- * for stack, queues, LIFO, FIFO Holberton project
+ * struct instruction_s - the purpose of opcode
+ * @opcode: is the opcode
+ * @f: handle the opcode function
+ * Description: the purpose opcode
  */
 typedef struct instruction_s
 {
@@ -76,4 +72,3 @@ void addqueue(stack_t **head, int n);
 void f_queue(stack_t **head, unsigned int counter);
 void f_stack(stack_t **head, unsigned int counter);
 #endif
-
